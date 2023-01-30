@@ -5,10 +5,10 @@
   }
   padding: 1%;
   margin: auto;
-  margin-top: 2%;
-  margin-bottom: 2%;
+  margin-top: 5%;
+  margin-bottom: 5%;
   float: center;
-  box-shadow: 0px 0px 10px 6px #ddd;
+  box-shadow: 0px 0px 8px #777777;
 }
 
 .face-snap-card-snapped {
@@ -20,12 +20,12 @@
 }
 
 .face-snap-button {
+  margin-right: 4%;
   margin-top: 1%;
-  margin-left: auto;
-  margin-right: auto;
   border: none;
   border-radius: 2px;
-  box-shadow: 0px 0px 5px #777777;
+  float: right;
+  box-shadow: 1px 1px 5px #777777;
   background-color: white;
   cursor: pointer;
 }

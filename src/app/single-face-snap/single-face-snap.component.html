@@ -1,0 +1,28 @@
+<div
+  class="face-snap-card"
+  [ngClass]="{
+    'face-snap-card-snapped': buttonText === 'Non en fait pas snap'
+  }"
+>
+  <a routerLink="/facesnaps">Retour à la liste</a>
+  <h2 class="face-snap-title">{{ snap.title | uppercase }}</h2>
+  <p>Mis en ligne le {{ snap.createdDate | date: 'dd/MM/yyyy à HH:mm:ss' }}</p>
+  <p *ngIf="snap.location">📍 {{ snap.location }}</p>
+  <img [src]="snap.imgUrl" [alt]="snap.title" />
+  <p>{{ snap.description }}</p>
+  <hr />
+  <p>
+    <span [ngStyle]="{ color: 'rgb(0, ' + 150 * snap.snaps + ', 0)' }"
+      >👍 {{ snap.snaps }}</span
+    >
+    <button
+      (click)="onAddSnap()"
+      class="face-snap-button"
+      [ngClass]="{
+        'face-snap-button-snapped': buttonText === 'Non en fait pas snap'
+      }"
+    >
+      {{ buttonText }}
+    </button>
+  </p>
+</div>
