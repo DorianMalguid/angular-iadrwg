@@ -1,0 +1,35 @@
+.face-snap-card {
+  width: 50%;
+  img {
+    width: 100%;
+  }
+  padding: 1%;
+  margin: auto;
+  margin-top: 5%;
+  margin-bottom: 5%;
+  float: center;
+  box-shadow: 0px 0px 8px #777777;
+}
+
+.face-snap-card-snapped {
+  box-shadow: 0px 0px 8px 5px #51b651;
+}
+
+.face-snap-title {
+  text-align: center;
+}
+
+.face-snap-button {
+  margin-right: 4%;
+  margin-top: 1%;
+  border: none;
+  border-radius: 2px;
+  float: right;
+  box-shadow: 1px 1px 5px #777777;
+  background-color: white;
+  cursor: pointer;
+}
+
+.face-snap-button-snapped {
+  background-color: #b65151;
+}
