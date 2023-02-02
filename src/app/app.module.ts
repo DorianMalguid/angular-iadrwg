@@ -13,6 +13,8 @@ import { SingleFaceSnapComponent } from './single-face-snap/single-face-snap.com
 import { HoursMinutesSeconds } from './pipes/hours-minutes-seconds.pipes';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NewFaceSnapComponent } from './new-face-snap/new-face-snap.component';
+import { HttpClientModule } from '@angular/common/http';
+import { httpInterceptionProviders } from './interceptors';
 
 @NgModule({
   declarations: [
@@ -25,8 +27,17 @@ import { NewFaceSnapComponent } from './new-face-snap/new-face-snap.component';
     HoursMinutesSeconds,
     NewFaceSnapComponent,
   ],
-  imports: [BrowserModule, AppRoutingModule, FormsModule, ReactiveFormsModule],
-  providers: [{ provide: LOCALE_ID, useValue: 'fr-FR' }],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    FormsModule,
+    ReactiveFormsModule,
+    HttpClientModule,
+  ],
+  providers: [
+    { provide: LOCALE_ID, useValue: 'fr-FR' },
+    httpInterceptionProviders,
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {

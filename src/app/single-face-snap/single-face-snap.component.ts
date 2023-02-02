@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { Observable, tap } from 'rxjs';
 import { FaceSnap } from '../models/face-snap.model';
 import { FaceSnapsService } from '../services/face-snaps.service';
 
@@ -9,7 +10,7 @@ import { FaceSnapsService } from '../services/face-snaps.service';
   styleUrls: ['./single-face-snap.component.scss'],
 })
 export class SingleFaceSnapComponent implements OnInit {
-  snap!: FaceSnap;
+  snap$!: Observable<FaceSnap>;
   buttonText!: string;
 
   constructor(
@@ -17,19 +18,25 @@ export class SingleFaceSnapComponent implements OnInit {
     private route: ActivatedRoute
   ) {}
 
-  onAddSnap(): void {
+  onAddSnap(snapId: number): void {
     if (this.buttonText === 'Snap!') {
-      this.faceSnapsService.snapFaceById(this.snap.id, 'snap');
-      this.buttonText = 'Non en fait pas snap';
+      this.snap$ = this.faceSnapsService.snapFaceById(snapId, 'snap').pipe(
+        tap(() => {
+          this.buttonText = 'Non en fait pas snap';
+        })
+      );
     } else {
-      this.faceSnapsService.snapFaceById(this.snap.id, 'unsnap');
-      this.buttonText = 'Snap!';
+      this.snap$ = this.faceSnapsService.snapFaceById(snapId, 'unsnap').pipe(
+        tap(() => {
+          this.buttonText = 'Snap!';
+        })
+      );
     }
   }
 
   ngOnInit(): void {
     this.buttonText = 'Snap!';
     const snapId = +this.route.snapshot.params['id'];
-    this.snap = this.faceSnapsService.getFaceSnapById(snapId);
+    this.snap$ = this.faceSnapsService.getFaceSnapById(snapId);
   }
 }

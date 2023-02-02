@@ -1,4 +1,6 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { map, Observable, switchMap } from 'rxjs';
 import { FaceSnap } from '../models/face-snap.model';
 
 @Injectable({
@@ -45,12 +47,17 @@ export class FaceSnapsService {
     },
   ];
 
-  getAllFaceSnaps(): FaceSnap[] {
-    return this.faceSnaps;
+  constructor(private http: HttpClient) {}
+
+  getAllFaceSnaps(): Observable<FaceSnap[]> {
+    return this.http.get<FaceSnap[]>('http://localhost:3000/facesnaps');
   }
 
-  getFaceSnapById(faceSnapId: number): FaceSnap {
-    const snap = this.faceSnaps.find((faceSnap) => faceSnap.id === faceSnapId);
+  getFaceSnapById(faceSnapId: number): Observable<FaceSnap> {
+    //const snap = this.faceSnaps.find((faceSnap) => faceSnap.id === faceSnapId);
+    const snap = this.http.get<FaceSnap>(
+      `http://localhost:3000/facesnaps/${faceSnapId}`
+    );
     if (!snap) {
       throw new Error('Invalid FaceSnap id : ' + faceSnapId);
     } else {
@@ -58,8 +65,42 @@ export class FaceSnapsService {
     }
   }
 
-  snapFaceById(faceSnapId: number, snapType: 'snap' | 'unsnap'): void {
-    const faceSnap = this.getFaceSnapById(faceSnapId);
-    snapType === 'snap' ? faceSnap.snaps++ : faceSnap.snaps--;
+  snapFaceById(
+    faceSnapId: number,
+    snapType: 'snap' | 'unsnap'
+  ): Observable<FaceSnap> {
+    return this.getFaceSnapById(faceSnapId).pipe(
+      map((snap) => ({
+        ...snap,
+        snaps: snap.snaps + (snapType === 'snap' ? 1 : -1),
+      })),
+      switchMap((snap) =>
+        this.http.put<FaceSnap>(
+          `http://localhost:3000/facesnaps/${snap.id}`,
+          snap
+        )
+      )
+    );
+  }
+
+  addFaceSnap(formValue: {
+    title: string;
+    description: string;
+    imgUrl: string;
+    location?: string;
+  }): Observable<FaceSnap> {
+    return this.getAllFaceSnaps().pipe(
+      map((snaps) => [...snaps].sort((a, b) => a.id - b.id)),
+      map((snaps) => snaps[snaps.length - 1]),
+      map((snap) => ({
+        ...formValue,
+        snaps: 0,
+        createdDate: new Date(),
+        id: snap.id + 1,
+      })),
+      switchMap((snap) =>
+        this.http.post<FaceSnap>('http://localhost:3000/facesnaps', snap)
+      )
+    );
   }
 }

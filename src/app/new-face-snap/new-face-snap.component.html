@@ -24,7 +24,13 @@
       <input id="location" type="text" formControlName="location" />
     </div>
     <div class="action-buttons">
-      <button type="submit" (click)="onSubmitForm()">Enregistrer</button>
+      <button
+        type="submit"
+        (click)="onSubmitForm()"
+        [disabled]="snapForm.invalid"
+      >
+        Enregistrer
+      </button>
     </div>
   </form>
 </div>
@@ -40,5 +46,5 @@
   </p>
   <img [src]="faceSnap.imgUrl" [alt]="faceSnap.title" />
   <p>{{ faceSnap.description }}</p>
-  <p *ngIf="faceSnap.location">Photo prise à {{ faceSnap.location }}</p>
+  <p *ngIf="faceSnap.location">📍 {{ faceSnap.location }}</p>
 </div>

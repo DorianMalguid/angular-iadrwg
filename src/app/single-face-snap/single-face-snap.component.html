@@ -3,6 +3,7 @@
   [ngClass]="{
     'face-snap-card-snapped': buttonText === 'Non en fait pas snap'
   }"
+  *ngIf="snap$ | async as snap"
 >
   <a routerLink="/facesnaps">Retour à la liste</a>
   <h2 class="face-snap-title">{{ snap.title | uppercase }}</h2>
@@ -16,7 +17,7 @@
       >👍 {{ snap.snaps }}</span
     >
     <button
-      (click)="onAddSnap()"
+      (click)="onAddSnap(snap.id)"
       class="face-snap-button"
       [ngClass]="{
         'face-snap-button-snapped': buttonText === 'Non en fait pas snap'
