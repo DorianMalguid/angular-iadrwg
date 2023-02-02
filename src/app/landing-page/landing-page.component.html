@@ -7,8 +7,24 @@
     <button (click)="onContinueToApp()">Continuer vers l'application</button>
     <p>
       Temps depuis l'arrivée sur la page :
-      {{ elapsedSeconds }}
+      {{ elapsedSeconds | hoursMinutesSeconds }}
     </p>
     <p>Nombre généré : {{ interval$ | async }}</p>
+  </div>
+  <hr />
+  <div class="newsletter">
+    <form #emailForm="ngForm" (ngSubmit)="onSubmitForm(emailForm)">
+      <label for="emailInput" class="newsletter-el"
+        >Recevoir la newsletter à :
+      </label>
+      <input
+        type="email"
+        id="emailInput"
+        name="userEmail"
+        [ngModel]="userEmail"
+        class="newsletter-el"
+      />
+      <button type="submit" class="newsletter-el">OK</button>
+    </form>
   </div>
 </div>
