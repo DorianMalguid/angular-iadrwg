@@ -5,5 +5,10 @@
   />
   <div class="landing-links">
     <button (click)="onContinueToApp()">Continuer vers l'application</button>
+    <p>
+      Temps depuis l'arrivée sur la page :
+      {{ elapsedSeconds }}
+    </p>
+    <p>Nombre généré : {{ interval$ | async }}</p>
   </div>
 </div>
